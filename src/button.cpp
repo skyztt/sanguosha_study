@@ -2,6 +2,8 @@
 
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
+#include <QSound>
+#include <QMediaPlayer>
 
 Button::Button(const QString &label)
     :label(label){
@@ -15,9 +17,17 @@ Button::Button(const QString &label)
     setAcceptedMouseButtons(Qt::LeftButton);
 }
 
-void Button::hoverEnterEvent(QGraphicsSceneHoverEvent *event){
+void Button::hoverEnterEvent(QGraphicsSceneHoverEvent *){
     setFocus(Qt::MouseFocusReason);
-
+	
+	QMediaPlayer* player = new QMediaPlayer;
+	player->setMedia(QUrl::fromLocalFile(Config.ButtonHoverSource));
+	player->play();
+	connect(player, &QMediaPlayer::mediaStatusChanged, this, [player](QMediaPlayer::MediaStatus status) {
+		if (status == QMediaPlayer::EndOfMedia) {
+			player->deleteLater();
+		}
+	});
     //Phonon::MediaObject *effect = Phonon::createPlayer(Phonon::MusicCategory, Config.ButtonHoverSource);
    // effect->play();
 
@@ -28,7 +38,19 @@ void Button::mousePressEvent(QGraphicsSceneMouseEvent *event){
     event->accept();
 }
 
-void Button::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
+void Button::mouseReleaseEvent(QGraphicsSceneMouseEvent *){
+	//QSound::play("audio/button-down.mp3");
+	//QSound::play("I:/sanguosha/sanguosha_study/audio/button-down.mp3");
+
+	QMediaPlayer* player = new QMediaPlayer;
+	player->setMedia(QUrl::fromLocalFile(Config.ButtonDownSource));
+	player->play();
+	connect(player, &QMediaPlayer::mediaStatusChanged, this, [player](QMediaPlayer::MediaStatus status) {
+		if (status == QMediaPlayer::EndOfMedia) {
+			player->deleteLater();
+		}
+	});
+
     //Phonon::MediaObject *effect = Phonon::createPlayer(Phonon::MusicCategory, Config.ButtonDownSource);
     //effect->play();
 
@@ -39,7 +61,7 @@ QRectF Button::boundingRect() const{
     return QRectF(-width/2 -2, -height/2 -8, width + 10, height + 10);
 }
 
-void Button::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+void Button::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *){
     painter->setFont(Config.BigFont);
     qreal font_size = Config.BigFont.pixelSize();
 

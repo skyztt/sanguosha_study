@@ -108,7 +108,7 @@ bool Card::CompareBySuitNumber(Card *a, Card *b){
         return a->number < b->number;
 }
 
-bool Card::CompareByType(Card *a, Card *b){
+bool Card::CompareByType(Card *, Card *){
     // FIXME: Not implemented
     return true;
 }
@@ -120,7 +120,7 @@ void Card::mousePressEvent(QGraphicsSceneMouseEvent *event){
     viewAs("slash");
 }
 
-void Card::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
+void Card::mouseReleaseEvent(QGraphicsSceneMouseEvent *){
     setOpacity(1.0);
     if(view_card){
         view_card->setVisible(false);
@@ -135,7 +135,7 @@ void Card::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
     }
 }
 
-void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *){
     static QRect suit_rect(8,8,18,18);
     painter->drawPixmap(CardRect, pixmap);
     painter->drawPixmap(suit_rect, suit_pixmap);

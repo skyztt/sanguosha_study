@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    if(QDir::current().dirName() == "release")
+    if(QDir::current().dirName() == "release" || "debug" == QDir::current().dirName())
         QDir::setCurrent("..");
 
     QTranslator translator;

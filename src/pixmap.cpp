@@ -11,6 +11,6 @@ QRectF Pixmap::boundingRect() const{
     return QRectF(0, 0, pixmap.width(), pixmap.height());
 }
 
-void Pixmap::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+void Pixmap::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *){
     painter->drawPixmap(0, 0, pixmap);
 }
