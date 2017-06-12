@@ -23,6 +23,7 @@ public:
     QScriptEngine *engine;
     QString UserName; 
     bool FitInView;
+	uint Port;
 };
 
 extern Settings Config;

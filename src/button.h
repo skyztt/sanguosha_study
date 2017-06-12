@@ -7,11 +7,14 @@
 #include <QFont>
 #include <QFontMetrics>
 
+class QAction;
+
 class Button : public QGraphicsObject
 {
     Q_OBJECT
 public:
     explicit Button(const QString &label);
+	explicit Button(QAction *action);
 
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);

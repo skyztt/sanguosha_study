@@ -28,6 +28,8 @@ private slots:
     void gotoScene(QGraphicsScene *scene);
 
     void on_actionExit_triggered();
+	void on_actionStart_Game_triggered();
+	void on_actionStart_Server_triggered();
 };
 
 #endif // MAINWINDOW_H

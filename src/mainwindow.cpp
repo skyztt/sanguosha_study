@@ -10,6 +10,8 @@
 #include <QMessageBox>
 #include <QGLWidget>
 #include <QTime>
+#include "roomscene.h"
+#include "server.h"
 
 class FitView : public QGraphicsView
 {
@@ -39,7 +41,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     StartScene *start_scene = new StartScene;
-    connect(start_scene, SIGNAL(switch_to_scene(QGraphicsScene*)), this, SLOT(gotoScene(QGraphicsScene*)));
+	QList<QAction*> actions;
+	actions << ui->actionStart_Game << ui->actionConfigure << ui->actionStart_Server
+		<< ui->actionGeneral_Preview << ui->actionAcknowledgement << ui->actionExit;
+	for (auto pAction : actions) {
+		start_scene->addButton(pAction);
+	}
 
     scene = start_scene;
     FitView *view = new FitView(scene);
@@ -89,4 +96,15 @@ void MainWindow::on_actionExit_triggered()
                                    QMessageBox::Ok | QMessageBox::Cancel);
     if(result == QMessageBox::Ok)
         close();
+}
+
+void MainWindow::on_actionStart_Game_triggered()
+{
+	gotoScene(new RoomScene);
+}
+
+void MainWindow::on_actionStart_Server_triggered()
+{
+	Server *server = new Server(this);
+	server->start();
 }

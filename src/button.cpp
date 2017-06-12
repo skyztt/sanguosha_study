@@ -4,6 +4,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QSound>
 #include <QMediaPlayer>
+#include <QAction> 
 
 Button::Button(const QString &label)
     :label(label){
@@ -15,6 +16,11 @@ Button::Button(const QString &label)
     setFlags(QGraphicsItem::ItemIsFocusable);
     setAcceptHoverEvents(true);
     setAcceptedMouseButtons(Qt::LeftButton);
+}
+
+Button::Button(QAction *action) : Button(action->text())
+{
+	connect(this, &Button::clicked, action, &QAction::trigger);
 }
 
 void Button::hoverEnterEvent(QGraphicsSceneHoverEvent *){

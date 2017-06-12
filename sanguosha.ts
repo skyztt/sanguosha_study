@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="zh_CN">
+<TS version="2.1" language="zh_CN">
 <context>
     <name>Bottom</name>
     <message>
@@ -23,67 +23,75 @@
     <name>MainWindow</name>
     <message>
         <location filename="src/mainwindow.ui" line="14"/>
-        <location filename="src/mainwindow.cpp" line="86"/>
+        <location filename="GeneratedFiles/ui_mainwindow.h" line="96"/>
+        <location filename="src/mainwindow.cpp" line="92"/>
         <source>Sanguosha</source>
         <translation>三国杀</translation>
     </message>
     <message>
         <location filename="src/mainwindow.ui" line="28"/>
+        <location filename="GeneratedFiles/ui_mainwindow.h" line="104"/>
         <source>Game</source>
         <translation>游戏</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="34"/>
+        <location filename="src/mainwindow.ui" line="35"/>
+        <location filename="GeneratedFiles/ui_mainwindow.h" line="105"/>
         <source>Tools</source>
         <translation>工具</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="44"/>
+        <location filename="src/mainwindow.ui" line="43"/>
+        <location filename="GeneratedFiles/ui_mainwindow.h" line="106"/>
+        <source>Help</source>
+        <translation>帮助</translation>
+    </message>
+    <message>
+        <location filename="src/mainwindow.ui" line="65"/>
+        <location filename="GeneratedFiles/ui_mainwindow.h" line="99"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="49"/>
+        <location filename="src/mainwindow.ui" line="60"/>
+        <location filename="GeneratedFiles/ui_mainwindow.h" line="98"/>
         <source>Configure</source>
         <translation>配置</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="87"/>
-        <source>Are you sure to exit?</source>
-        <translation>确定要退出?</translation>
+        <location filename="src/mainwindow.ui" line="70"/>
+        <location filename="GeneratedFiles/ui_mainwindow.h" line="100"/>
+        <source>Start Server</source>
+        <translation>启动服务器</translation>
     </message>
-</context>
-<context>
-    <name>StartScene</name>
     <message>
-        <location filename="src/startscene.cpp" line="12"/>
+        <location filename="src/mainwindow.ui" line="55"/>
+        <location filename="GeneratedFiles/ui_mainwindow.h" line="97"/>
         <source>Start Game</source>
         <translation>开始游戏</translation>
     </message>
     <message>
-        <location filename="src/startscene.cpp" line="13"/>
-        <source>Drama Mode</source>
-        <translation>场景模式</translation>
-    </message>
-    <message>
-        <location filename="src/startscene.cpp" line="14"/>
-        <source>Challenge Mode</source>
-        <translation>挑战模式</translation>
-    </message>
-    <message>
-        <location filename="src/startscene.cpp" line="15"/>
+        <location filename="src/mainwindow.ui" line="75"/>
+        <location filename="GeneratedFiles/ui_mainwindow.h" line="101"/>
         <source>General Preview</source>
         <translation>武将一览</translation>
     </message>
     <message>
-        <location filename="src/startscene.cpp" line="16"/>
+        <location filename="src/mainwindow.ui" line="80"/>
+        <location filename="GeneratedFiles/ui_mainwindow.h" line="102"/>
+        <source>About</source>
+        <translation>关于</translation>
+    </message>
+    <message>
+        <location filename="src/mainwindow.ui" line="85"/>
+        <location filename="GeneratedFiles/ui_mainwindow.h" line="103"/>
         <source>Acknowledgement</source>
         <translation>鸣谢</translation>
     </message>
     <message>
-        <location filename="src/startscene.cpp" line="17"/>
-        <source>Quit</source>
-        <translation>退出</translation>
+        <location filename="src/mainwindow.cpp" line="93"/>
+        <source>Are you sure to exit?</source>
+        <translation>确定要退出?</translation>
     </message>
 </context>
 </TS>

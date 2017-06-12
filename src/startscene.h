@@ -5,20 +5,15 @@
 
 #include <QGraphicsScene>
 
+class QAction;
+
 class StartScene: public QGraphicsScene{
 Q_OBJECT
-
-private:
-    Button *start_game, *drama_mode, *challenge_mode, *general_preview, *acknowledgement, *quit;
-private slots:
-    void startGame();
-    void leave();
-
 public:
     StartScene();
-
-signals:
-    void switch_to_scene(QGraphicsScene *);
+	void addButton(QAction *action);
+private:
+	int btnCount_ = 0;
 };
 
 #endif // STARTSCENE_H
