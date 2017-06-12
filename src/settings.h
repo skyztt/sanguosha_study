@@ -18,7 +18,7 @@ public:
     const QRectF Rect;
     QFont BigFont;
     QFont SmallFont;
-    QScriptEngine *engine;
+    QScriptEngine *engine = nullptr;
     QString UserName; 
     bool FitInView;
 	uint Port;

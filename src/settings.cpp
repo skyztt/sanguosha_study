@@ -35,7 +35,7 @@ void Settings::init(){
     BigFont.setPixelSize(64);
     SmallFont.setPixelSize(32);
 	
-    engine = new QScriptEngine;
+    engine = new QScriptEngine(this);
 
     UserName = value("UserName", getenv("USERNAME")).toString();
 	Port = value("Port", 9527u).toUInt();

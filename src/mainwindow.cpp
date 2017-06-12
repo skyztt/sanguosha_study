@@ -12,6 +12,7 @@
 #include <QTime>
 #include "roomscene.h"
 #include "server.h"
+#include "engine.h"
 
 class FitView : public QGraphicsView
 {
@@ -56,6 +57,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 //    if(Config.TitleMusic)
 //        Config.TitleMusic->play();
+
+	engine = new Engine(this);
+	connect(engine, SIGNAL(signalHandlerException(QScriptValue)), this, SLOT(scriptException(QScriptValue)));
 
     restoreFromConfig();
 }
@@ -122,4 +126,10 @@ void MainWindow::on_actionStart_Server_triggered()
 	if (start_scene) {
 		start_scene->switchToServer(server);
 	}
+}
+
+void MainWindow::scriptException(const QScriptValue &exception)
+{
+	QMessageBox::warning(this, "Script exception!", exception.toString());
+	engine->clearExceptions();
 }

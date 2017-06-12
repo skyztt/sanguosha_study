@@ -16,7 +16,7 @@ RoomScene::RoomScene()
     int i;
     for(i=0;i<7;i++){
         Photo *photo = new Photo;
-        photos[i] = photo;
+        photos << photo;
 
         addItem(photo);
 
@@ -29,12 +29,7 @@ RoomScene::RoomScene()
         translation->setEasingCurve(QEasingCurve::OutBounce);
         translation->setDuration(duration);
 
-        QPropertyAnimation *rotation = new QPropertyAnimation(photo, "rotation");
-        rotation->setEndValue(360 * 4);
-        rotation->setDuration(duration);
-
         group->addAnimation(translation);
-        group->addAnimation(rotation);
     }
 
 	photos[0]->loadAvatar("generals/small/caocao.png");
@@ -72,7 +67,24 @@ RoomScene::RoomScene()
     group->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
-void RoomScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
+void RoomScene::updatePhotos()
+{
+	QParallelAnimationGroup *group = new QParallelAnimationGroup(this);
+
+	int i;
+	for (i = 0; i < photos.size(); i++) {
+		Photo *photo = photos[i];
+		QPropertyAnimation *translation = new QPropertyAnimation(photo, "x");
+		translation->setEndValue(i * photo->boundingRect().width() + Config.Rect.x());
+		translation->setEasingCurve(QEasingCurve::OutBounce);
+
+		group->addAnimation(translation);
+	}
+
+	group->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+void RoomScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     QGraphicsScene::mousePressEvent(event);
     if(event->button() == Qt::RightButton){
         // use skill
