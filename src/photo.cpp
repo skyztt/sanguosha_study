@@ -5,11 +5,15 @@
 #include <QMimeData>
 #include <QDrag>
 #include <QGraphicsScene>
+#include "card.h"
+#include "QMessageBox"
+#include "QGraphicsSceneEvent"
 
 Photo::Photo()
     :Pixmap(":/images/photo-back.png"),
     avatar_frame(":/images/avatar-frame.png")
 {
+	setAcceptHoverEvents(true);
 }
 
 void Photo::loadAvatar(const QString &filename){
@@ -25,5 +29,13 @@ void Photo::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     }
 }
 
+void Photo::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+	QGraphicsObject *obj = static_cast<QGraphicsObject*>(scene()->focusItem());
+	Card *card = qobject_cast<Card*>(obj);
+	if (card && card->contains(card->mapFromItem(this, event->pos()))) {
+		QMessageBox::information(NULL, "", card->objectName());
+	}
+}
 
 
