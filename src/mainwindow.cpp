@@ -100,6 +100,9 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionStart_Game_triggered()
 {
+	ui->actionStart_Game->setEnabled(false);
+	ui->actionStart_Server->setEnabled(false);
+
 	gotoScene(new RoomScene);
 }
 
@@ -116,12 +119,6 @@ void MainWindow::on_actionStart_Server_triggered()
 
 	StartScene *start_scene = qobject_cast<StartScene *>(scene);
 	if (start_scene) {
-		start_scene->leave();
+		start_scene->switchToServer(server);
 	}
-
-	QString server_message;
-	server_message = tr("Server Address: %1 Port: %2").arg(server->serverAddress().toString()).arg(server->serverPort());
-	QGraphicsSimpleTextItem *server_message_item = scene->addSimpleText(server_message, Config.SmallFont);
-	server_message_item->setBrush(Qt::white);
-	server_message_item->setPos(-180, -250);
 }

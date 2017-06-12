@@ -5,6 +5,7 @@
 #include "pixmap.h"
 #include "QParallelAnimationGroup"
 #include <QTextEdit> 
+#include "server.h"
 
 StartScene::StartScene(){
     setBackgroundBrush(QBrush(QPixmap(":/images/background.png")));
@@ -32,7 +33,7 @@ void StartScene::addButton(QAction *action)
 	buttons << button;
 }
 
-void StartScene::leave() {
+void StartScene::switchToServer(Server *server) {
 	// performs leaving animation
 	QPropertyAnimation *logo_shift = new QPropertyAnimation(logo, "pos");
 	logo_shift->setEndValue(Config.Rect.topLeft());
@@ -50,17 +51,31 @@ void StartScene::leave() {
 	}
 	buttons.clear();
 
-	connect(group, SIGNAL(finished()), SLOT(showServerLog()));
+	//connect(group, SIGNAL(finished()), SLOT(showServerLog()));
 	group->start(QAbstractAnimation::DeleteWhenStopped);
-}
 
-void StartScene::showServerLog() {
-	server_log = new QTextEdit();
+	QTextEdit *server_log = new QTextEdit();
+
+	// make its background the same as background, looks transparent
 	QBrush brush(QPixmap(":/images/background.png"));
 	QPalette palette;
 	palette.setBrush(QPalette::Base, brush);
+
+	server_log->setReadOnly(true);
 	server_log->setPalette(palette);
 	server_log->resize(600, 420);
 	server_log->move(-400, -180);
+	server_log->setFrameShape(QFrame::NoFrame);
+
+	server_log->setFont(QFont("Verdana", 12));
+	server_log->setTextColor(QColor("white"));
+	server_log->setText("hello,world");
+
 	addWidget(server_log);
+
+	QString server_message;
+	server_message = tr("Server Address: %1 Port: %2").arg(server->serverAddress().toString()).arg(server->serverPort());
+	QGraphicsSimpleTextItem *server_message_item = addSimpleText(server_message, Config.SmallFont);
+	server_message_item->setBrush(Qt::white);
+	server_message_item->setPos(-180, -250);
 }

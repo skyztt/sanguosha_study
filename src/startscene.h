@@ -8,19 +8,17 @@
 class QAction;
 class QTextEdit;
 class Pixmap;
+class Server;
 
 class StartScene: public QGraphicsScene{
 Q_OBJECT
 public:
     StartScene();
 	void addButton(QAction *action);
-	void leave();
+	void switchToServer(Server *server);
 private:
 	Pixmap *logo = nullptr;
 	QList<Button*> buttons;
-	QTextEdit *server_log = nullptr;
-private slots:
-	void showServerLog();
 };
 
 #endif // STARTSCENE_H
