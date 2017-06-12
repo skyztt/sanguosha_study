@@ -18,8 +18,6 @@ public:
     const QRectF Rect;
     QFont BigFont;
     QFont SmallFont;
-    //Phonon::MediaSource ButtonHoverSource, ButtonDownSource;
-	QString ButtonHoverSource, ButtonDownSource;
     QScriptEngine *engine;
     QString UserName; 
     bool FitInView;

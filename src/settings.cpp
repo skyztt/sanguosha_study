@@ -34,15 +34,7 @@ void Settings::init(){
 
     BigFont.setPixelSize(64);
     SmallFont.setPixelSize(32);
-
-    //using namespace Phonon;
-
-    //ButtonHoverSource = MediaSource("audio/button-hover.wav");
-    //ButtonDownSource = MediaSource("audio/button-down.mp3");
-
-	ButtonHoverSource = ("audio/button-hover.wav");
-	ButtonDownSource = ("audio/button-down.mp3");
-
+	
     engine = new QScriptEngine;
 
     UserName = value("UserName", getenv("USERNAME")).toString();

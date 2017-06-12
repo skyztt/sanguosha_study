@@ -6,6 +6,10 @@
 #include <QMediaPlayer>
 #include <QAction> 
 
+namespace {
+	QString ButtonHoverSource = ("audio/button-hover.wav");
+	QString ButtonDownSource = ("audio/button-down.mp3");
+}
 Button::Button(const QString &label)
     :label(label){
 
@@ -27,7 +31,7 @@ void Button::hoverEnterEvent(QGraphicsSceneHoverEvent *){
     setFocus(Qt::MouseFocusReason);
 	
 	QMediaPlayer* player = new QMediaPlayer;
-	player->setMedia(QUrl::fromLocalFile(Config.ButtonHoverSource));
+	player->setMedia(QUrl::fromLocalFile(ButtonHoverSource));
 	player->play();
 	connect(player, &QMediaPlayer::mediaStatusChanged, this, [player](QMediaPlayer::MediaStatus status) {
 		if (status == QMediaPlayer::EndOfMedia) {
@@ -49,7 +53,7 @@ void Button::mouseReleaseEvent(QGraphicsSceneMouseEvent *){
 	//QSound::play("I:/sanguosha/sanguosha_study/audio/button-down.mp3");
 
 	QMediaPlayer* player = new QMediaPlayer;
-	player->setMedia(QUrl::fromLocalFile(Config.ButtonDownSource));
+	player->setMedia(QUrl::fromLocalFile(ButtonDownSource));
 	player->play();
 	connect(player, &QMediaPlayer::mediaStatusChanged, this, [player](QMediaPlayer::MediaStatus status) {
 		if (status == QMediaPlayer::EndOfMedia) {

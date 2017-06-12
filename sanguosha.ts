@@ -24,7 +24,7 @@
     <message>
         <location filename="src/mainwindow.ui" line="14"/>
         <location filename="GeneratedFiles/ui_mainwindow.h" line="96"/>
-        <location filename="src/mainwindow.cpp" line="92"/>
+        <location filename="src/mainwindow.cpp" line="94"/>
         <source>Sanguosha</source>
         <translation>三国杀</translation>
     </message>
@@ -89,9 +89,19 @@
         <translation>鸣谢</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.cpp" line="93"/>
+        <location filename="src/mainwindow.cpp" line="95"/>
         <source>Are you sure to exit?</source>
         <translation>确定要退出?</translation>
+    </message>
+    <message>
+        <location filename="src/mainwindow.cpp" line="110"/>
+        <source>Can not start server!</source>
+        <translation>服务器启动失败!</translation>
+    </message>
+    <message>
+        <location filename="src/mainwindow.cpp" line="123"/>
+        <source>Server Address: %1 Port: %2</source>
+        <translation>服务器地址: %1 端口: %2</translation>
     </message>
 </context>
 </TS>
