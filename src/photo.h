@@ -11,14 +11,11 @@ class Photo : public Pixmap
 public:
     explicit Photo();
     void loadAvatar(const QString &filename);
-
-    static void init();
-    static void quit();
-
+	
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 	virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
-
+	QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 private:
     QPixmap avatar;
     QPixmap avatar_frame;

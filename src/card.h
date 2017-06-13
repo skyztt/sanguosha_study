@@ -45,6 +45,7 @@ protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+	virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 private:
@@ -53,13 +54,9 @@ private:
     int number;
     QPixmap pixmap;
     QPixmap suit_pixmap;
-    QGraphicsColorizeEffect *monochrome_effect;
     QPointF home_pos;
     QGraphicsPixmapItem *view_card;
     Type type;
-
-private slots:
-    void setMonochrome();
 };
 
 #endif // CARD_H

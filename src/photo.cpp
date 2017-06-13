@@ -14,6 +14,7 @@ Photo::Photo()
     avatar_frame(":/images/avatar-frame.png")
 {
 	setAcceptHoverEvents(true);
+	setFlags(QGraphicsItem::ItemIsSelectable);
 }
 
 void Photo::loadAvatar(const QString &filename){
@@ -33,9 +34,23 @@ void Photo::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
 	QGraphicsObject *obj = static_cast<QGraphicsObject*>(scene()->focusItem());
 	Card *card = qobject_cast<Card*>(obj);
-	if (card && card->contains(card->mapFromItem(this, event->pos()))) {
+	if (card && card->isUnderMouse()) {
 		QMessageBox::information(NULL, "", card->objectName());
 	}
 }
 
+QVariant Photo::itemChange(GraphicsItemChange change, const QVariant &value)
+{
+	if (change == QGraphicsItem::ItemSelectedChange) {
+		if (value.toBool()) {
+			QGraphicsColorizeEffect *effect = new QGraphicsColorizeEffect(this);
+			effect->setColor(QColor(0xCC, 0x00, 0x00));
+			setGraphicsEffect(effect);
+		}
+		else
+			setGraphicsEffect(NULL);
+	}
+
+	return Pixmap::itemChange(change, value);
+}
 
