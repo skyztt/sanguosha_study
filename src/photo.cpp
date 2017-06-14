@@ -7,7 +7,6 @@
 #include <QGraphicsScene>
 #include "card.h"
 #include "QMessageBox"
-#include "QGraphicsSceneEvent"
 
 Photo::Photo()
     :Pixmap(":/images/photo-back.png"),
@@ -37,20 +36,5 @@ void Photo::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 	if (card && card->isUnderMouse()) {
 		QMessageBox::information(NULL, "", card->objectName());
 	}
-}
-
-QVariant Photo::itemChange(GraphicsItemChange change, const QVariant &value)
-{
-	if (change == QGraphicsItem::ItemSelectedChange) {
-		if (value.toBool()) {
-			QGraphicsColorizeEffect *effect = new QGraphicsColorizeEffect(this);
-			effect->setColor(QColor(0xCC, 0x00, 0x00));
-			setGraphicsEffect(effect);
-		}
-		else
-			setGraphicsEffect(NULL);
-	}
-
-	return Pixmap::itemChange(change, value);
 }
 

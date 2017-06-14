@@ -72,10 +72,4 @@ void StartScene::switchToServer(Server *server) {
 	server_log->setText("hello,world");
 
 	addWidget(server_log);
-
-	QString server_message;
-	server_message = tr("Server Address: %1 Port: %2").arg(server->serverAddress().toString()).arg(server->serverPort());
-	QGraphicsSimpleTextItem *server_message_item = addSimpleText(server_message, Config.SmallFont);
-	server_message_item->setBrush(Qt::white);
-	server_message_item->setPos(-180, -250);
 }
