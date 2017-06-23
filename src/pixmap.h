@@ -10,6 +10,8 @@ public:
     Pixmap(const QString &filename);
     virtual QRectF boundingRect() const;
 
+	void changePixmap(const QString &filename);
+	void shift();
 protected:
 	virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);

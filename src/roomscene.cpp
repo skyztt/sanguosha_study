@@ -123,10 +123,31 @@ void RoomScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 	foreach(Photo *photo, photos) {
 		if (photo->isUnderMouse()) {
 			photo->setSelected(true);
+			break;
 		}
 	}
 	if (avatar->isUnderMouse()) {
 		avatar->setSelected(true);
 	}
+}
+
+void RoomScene::showBust(const QString &name)
+{
+	QString filename = "generals/bust/" + name + ".png";
+	if (!bust) {
+		bust = new Pixmap(filename);
+		bust->shift();
+		addItem(bust);
+	}
+	else
+		bust->changePixmap(filename);
+
+	QPropertyAnimation *appear = new QPropertyAnimation(bust, "scale");
+	appear->setStartValue(0.2);
+	appear->setEndValue(1.0);
+
+	appear->start();
+
+	connect(appear, SIGNAL(finished()), bust, SIGNAL(visibleChanged()));
 }
 

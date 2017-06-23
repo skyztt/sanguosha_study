@@ -12,6 +12,14 @@ QRectF Pixmap::boundingRect() const{
     return QRectF(0, 0, pixmap.width(), pixmap.height());
 }
 
+void Pixmap::changePixmap(const QString &filename) {
+	pixmap.load(filename);
+}
+
+void Pixmap::shift() {
+	moveBy(-pixmap.width() / 2, -pixmap.height() / 2);
+}
+
 QVariant Pixmap::itemChange(GraphicsItemChange change, const QVariant &value)
 {
 	if (change == QGraphicsItem::ItemSelectedChange) {

@@ -18,12 +18,15 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 	void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 
+public slots:
+	void showBust(const QString &name);
 private:
 	QList<Photo*> photos;
     Dashboard *dashboard = nullptr;
     Pixmap *pile;
     QGraphicsSimpleTextItem *skill_label;
 	Pixmap *avatar = nullptr;
+	Pixmap *bust = nullptr;
 };
 
 #endif // ROOMSCENE_H

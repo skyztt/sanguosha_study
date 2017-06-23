@@ -59,7 +59,6 @@ MainWindow::MainWindow(QWidget *parent) :
 //        Config.TitleMusic->play();
 
 	engine = new Engine(this);
-	connect(engine, SIGNAL(signalHandlerException(QScriptValue)), this, SLOT(scriptException(QScriptValue)));
 
     restoreFromConfig();
 }
