@@ -11,6 +11,7 @@ namespace Ui {
 
 class QScriptValue;
 class Engine;
+class ConnectionDialog;
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -28,14 +29,16 @@ private:
     void restoreFromConfig();
 
 	Engine *engine = nullptr;
+	ConnectionDialog *connection_dialog = nullptr;
 
 private slots:
     void gotoScene(QGraphicsScene *scene);
 
-    void on_actionExit_triggered();
-	void on_actionStart_Game_triggered();
+    void on_actionExit_triggered();	
 	void on_actionStart_Server_triggered();
 	void scriptException(const QScriptValue &exception);
+
+	void startGame();
 };
 
 #endif // MAINWINDOW_H

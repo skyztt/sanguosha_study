@@ -13,6 +13,7 @@
 #include "roomscene.h"
 #include "server.h"
 #include "engine.h"
+#include "connectiondialog.h"
 
 class FitView : public QGraphicsView
 {
@@ -36,11 +37,15 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+	ui->setupUi(this);
+
     Config.init();
+	connection_dialog = new ConnectionDialog(this);
+	connect(ui->actionStart_Game, SIGNAL(triggered()), connection_dialog, SLOT(show()));
+	connect(connection_dialog, SIGNAL(accepted()), this, SLOT(startGame()));
 
     qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
-
-    ui->setupUi(this);
+    
 
     StartScene *start_scene = new StartScene;
 	QList<QAction*> actions;
@@ -102,7 +107,7 @@ void MainWindow::on_actionExit_triggered()
         close();
 }
 
-void MainWindow::on_actionStart_Game_triggered()
+void MainWindow::startGame()
 {
 	ui->actionStart_Game->setEnabled(false);
 	ui->actionStart_Server->setEnabled(false);

@@ -5,7 +5,6 @@
 #include <QFont>
 #include <QRectF>
 #include <QPixmap>
-#include <QScriptEngine>
 
 class Settings : public QSettings
 {
@@ -18,10 +17,12 @@ public:
     const QRectF Rect;
     QFont BigFont;
     QFont SmallFont;
-    QScriptEngine *engine = nullptr;
+
     QString UserName; 
-    bool FitInView;
+	QString HostAddress;
 	uint Port;
+
+    bool FitInView;	
 	bool UseOpenGL;
 };
 

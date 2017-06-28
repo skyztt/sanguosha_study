@@ -52,3 +52,7 @@ Q_INVOKABLE void Engine::addTranslationTable(QVariantMap table)
 		translation->setProperty(itor.key().toLocal8Bit(), itor.value());
 	}
 }
+
+QString Engine::translate(const QString &to_translate) {
+	return translation->property(to_translate.toLatin1()).toString();
+}
