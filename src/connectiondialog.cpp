@@ -34,6 +34,6 @@ void ConnectionDialog::on_connectButton_clicked()
 {
 	Config.UserName = ui->nameLineEdit->text();
 	Config.HostAddress = ui->hostLineEdit->text();
-	Config.Port = ui->portLineEdit->text().toInt();
+	Config.Port = ui->portLineEdit->text().toUShort();
 	accept();
 }

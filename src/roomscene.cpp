@@ -42,7 +42,7 @@ RoomScene::RoomScene()
 
     {
 		dashboard = new Dashboard;
-		dashboard->setGeneral(new General("caocao", "wei", 4, true));
+		dashboard->setGeneral(new General("xiahoudun", "wei", 4, true));
 
 		addItem(dashboard);
 

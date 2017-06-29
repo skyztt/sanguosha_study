@@ -2,9 +2,13 @@
 
 #include <QFile>
 #include <QStringList>
+#include <QMessageBox>
+#include <QScriptValueIterator>
+
 #include "general.h"
-#include "QMessageBox"
 #include "QString"
+#include "card.h"
+#include "cardclass.h"
 
 Engine *Sanguosha = nullptr;
 
@@ -19,23 +23,15 @@ Engine::Engine(QObject *parent) :
 	translation = new QObject(this);
 	translation->setObjectName("translation");
 
+	card_classes = new QObject(this);
+	card_classes->setObjectName("card_classes");
+
 	//qScriptRegisterMetaType()
 
 	QStringList script_files;
 	script_files << "init.js" << "cards.js" << "generals.js";
 	foreach(QString filename, script_files) {
-		QFile file("scripts/" + filename);
-		if (file.open(QIODevice::ReadOnly)) {
-			evaluate(file.readAll(), filename);
-			if (hasUncaughtException()) {
-				QString error_msg = tr("%1\n\n Stack trace:\n %2")
-					.arg(uncaughtException().toString())
-					.arg(uncaughtExceptionBacktrace().join("\n"));
-				QMessageBox::warning(NULL, tr("Script exception!"), error_msg);
-				exit(1);
-				return;
-			}
-		}
+		doScript("scripts/" + filename);
 	}
 }
 
@@ -46,20 +42,80 @@ QObject * Engine::addGeneral(const QString &name, const QString &kingdom, int ma
 	return general;
 }
 
-Q_INVOKABLE void Engine::addTranslationTable(QVariantMap table)
+QObject *Engine::addCard(const QString &card_class, const QString &suit_str, int number) {
+	Card::Suit suit;
+	if (suit_str == "spade")
+		suit = Card::Spade;
+	else if (suit_str == "club")
+		suit = Card::Club;
+	else if (suit_str == "heart")
+		suit = Card::Heart;
+	else if (suit_str == "diamond")
+		suit = Card::Diamond;
+	else
+		suit = Card::NoSuit;
+
+	Card *card = new Card(card_class, suit, number);
+	return card;
+}
+
+Q_INVOKABLE QObject * Engine::addCardClass(const QString &class_name)
 {
-	QMapIterator<QString, QVariant> itor(table);
+	CardClass *card_class = new CardClass(class_name, card_classes);
+	return card_class;
+}
+
+Q_INVOKABLE void Engine::addTranslationTable(const QScriptValue &table)
+{
+	if (!table.isObject())
+		return;
+
+	QScriptValueIterator itor(table);
 	while (itor.hasNext()) {
 		itor.next();
-		translation->setProperty(itor.key().toLocal8Bit(), itor.value());
+		translation->setProperty(itor.name().toUtf8(), itor.value().toString());
 	}
 }
 
 QString Engine::translate(const QString &to_translate) {
-	return translation->property(to_translate.toLatin1()).toString();
+	return translation->property(to_translate.toUtf8()).toString();
+}
+
+Q_INVOKABLE QScriptValue Engine::doScript(const QString &filename)
+{
+	QString error_msg;
+	QScriptValue result;
+	QFile file(filename);
+	if (file.open(QIODevice::ReadOnly)) {
+		result = evaluate(file.readAll(), filename);
+		if (hasUncaughtException()) {
+			error_msg = tr("%1\n\n Stack trace:\n %2")
+				.arg(uncaughtException().toString())
+				.arg(uncaughtExceptionBacktrace().join("\n"));
+		}
+	}
+	else
+		error_msg = tr("Script file %1 can not be opened for execution!").arg(filename);
+
+	if (!error_msg.isEmpty()) {
+		QMessageBox::warning(NULL, tr("Script exception!"), error_msg);
+		exit(1);
+	}
+
+	return result;
 }
 
 General * Engine::getGeneral(const QString &name)
 {
 	return generals->findChild<General*>(name);
+}
+
+void Engine::alert(const QString &message) {
+	QMessageBox::information(NULL, tr("Script alert"), message);
+}
+
+void Engine::quit(const QString &reason) {
+	if (!reason.isEmpty())
+		QMessageBox::warning(NULL, tr("Script quit"), reason);
+	exit(0);
 }

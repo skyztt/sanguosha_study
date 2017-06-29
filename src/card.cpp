@@ -51,17 +51,22 @@ QString Card::getNumberString() const{
         return "10";
     else{
         static const char *number_string = "-A23456789-JQK";
-        return QChar(number_string[number]);
+        return QString(number_string[number]);
     }
 }
 
-QString Card::getType() const{
+QString Card::getTypeString() const{
     switch(type){
     case Basic: return "Basic"; break;
     case Equip: return "Equip"; break;
     case Trick: return "Trick"; break;
-    default: return "Other";
+    default: return "NoSuit";
     }
+}
+
+Card::Type Card::getType() const
+{
+	return type;
 }
 
 void Card::setHomePos(QPointF home_pos){
