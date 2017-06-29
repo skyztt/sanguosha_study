@@ -15,6 +15,7 @@
 #include "engine.h"
 #include "connectiondialog.h"
 #include "QTcpSocket"
+#include "client.h"
 
 class FitView : public QGraphicsView
 {
@@ -116,6 +117,11 @@ void MainWindow::startGame()
 	gotoScene(new RoomScene);
 }
 
+void MainWindow::connectionError(const QString &error_msg)
+{
+	QMessageBox::warning(this, tr("Connection failed"), error_msg);
+}
+
 void MainWindow::on_actionStart_Server_triggered()
 {
 	Server *server = new Server(this);	
@@ -135,12 +141,8 @@ void MainWindow::on_actionStart_Server_triggered()
 
 void MainWindow::startConnection()
 {
-#if 0
-	QTcpSocket *socket = new QTcpSocket(this);
-	socket->connectToHost(Config.HostAddress, Config.Port);
-	connect(socket, SIGNAL(connected()), this, SLOT(startGame()));
-	socket->waitForConnected();
-#endif
+	Client *client = new Client(this);
 
-	startGame();
+	connect(client, SIGNAL(errorMessage(QString)), SLOT(connectionError(QString)));
+	connect(client, SIGNAL(connected()), SLOT(startGame()));
 }

@@ -39,6 +39,8 @@ private slots:
 	void startConnection();
 
 	void startGame();
+
+	void connectionError(const QString &error_msg);
 };
 
 #endif // MAINWINDOW_H
