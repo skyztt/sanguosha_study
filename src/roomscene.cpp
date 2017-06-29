@@ -7,7 +7,7 @@
 
 RoomScene::RoomScene()
 {
-    setBackgroundBrush(QBrush(QPixmap(":/images/background.png")));
+    setBackgroundBrush(Config.BackgroundBrush);
     skill_label = addSimpleText(Config.UserName, Config.BigFont);
     skill_label->setPos(-400, -100);
 

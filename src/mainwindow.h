@@ -28,7 +28,6 @@ private:
 
     void restoreFromConfig();
 
-	Engine *engine = nullptr;
 	ConnectionDialog *connection_dialog = nullptr;
 
 private slots:
@@ -36,7 +35,8 @@ private slots:
 
     void on_actionExit_triggered();	
 	void on_actionStart_Server_triggered();
-	void scriptException(const QScriptValue &exception);
+
+	void startConnection();
 
 	void startGame();
 };

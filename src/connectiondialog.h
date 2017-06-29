@@ -12,6 +12,8 @@ class ConnectionDialog : public QDialog {
 public:
     ConnectionDialog(QWidget *parent = 0);
     ~ConnectionDialog();
+public slots:
+	void on_connectButton_clicked();
 
 private:
     Ui::ConnectionDialog *ui;

@@ -8,7 +8,7 @@
 #include "server.h"
 
 StartScene::StartScene(){
-    setBackgroundBrush(QBrush(QPixmap(":/images/background.png")));
+    setBackgroundBrush(Config.BackgroundBrush);
 	
 	logo = new Pixmap(":/images/logo.png");
 	logo->setPos(-logo->boundingRect().width() / 2, -Config.Rect.height() / 4 - logo->boundingRect().height() / 2);

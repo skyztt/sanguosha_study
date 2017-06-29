@@ -14,6 +14,7 @@
 #include "server.h"
 #include "engine.h"
 #include "connectiondialog.h"
+#include "QTcpSocket"
 
 class FitView : public QGraphicsView
 {
@@ -42,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
     Config.init();
 	connection_dialog = new ConnectionDialog(this);
 	connect(ui->actionStart_Game, SIGNAL(triggered()), connection_dialog, SLOT(show()));
-	connect(connection_dialog, SIGNAL(accepted()), this, SLOT(startGame()));
+	connect(connection_dialog, SIGNAL(accepted()), this, SLOT(startConnection()));
 
     qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
     
@@ -63,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //    if(Config.TitleMusic)
 //        Config.TitleMusic->play();
 
-	engine = new Engine(this);
+	Sanguosha = new Engine(this);
 
     restoreFromConfig();
 }
@@ -132,8 +133,14 @@ void MainWindow::on_actionStart_Server_triggered()
 	}
 }
 
-void MainWindow::scriptException(const QScriptValue &exception)
+void MainWindow::startConnection()
 {
-	QMessageBox::warning(this, "Script exception!", exception.toString());
-	engine->clearExceptions();
+#if 0
+	QTcpSocket *socket = new QTcpSocket(this);
+	socket->connectToHost(Config.HostAddress, Config.Port);
+	connect(socket, SIGNAL(connected()), this, SLOT(startGame()));
+	socket->waitForConnected();
+#endif
+
+	startGame();
 }

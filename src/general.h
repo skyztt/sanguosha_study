@@ -15,6 +15,7 @@ class General : public QObject
 
 public:
 	explicit General(const QString &name, const QString &kingdom, int max_hp, bool male);
+	General(const QString &name);
 
 	// property getters/setters
 	int getMaxHp() const;
@@ -29,9 +30,9 @@ public:
 	void enthrone();
 
 private:
-	const QString kingdom;
+	QString kingdom;
 	int max_hp, hp;
-	const bool male;
+	bool male;
 	bool is_lord;
 };
 

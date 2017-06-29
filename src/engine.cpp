@@ -6,6 +6,8 @@
 #include "QMessageBox"
 #include "QString"
 
+Engine *Sanguosha = nullptr;
+
 Engine::Engine(QObject *parent) :
     QScriptEngine(parent)
 {
@@ -55,4 +57,9 @@ Q_INVOKABLE void Engine::addTranslationTable(QVariantMap table)
 
 QString Engine::translate(const QString &to_translate) {
 	return translation->property(to_translate.toLatin1()).toString();
+}
+
+General * Engine::getGeneral(const QString &name)
+{
+	return generals->findChild<General*>(name);
 }
