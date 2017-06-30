@@ -1,41 +1,91 @@
-ï»¿var table = {
-    // é­å›½æ­¦å°†
-    "caocao" : "æ›¹æ“",
-    "zhangliao" : "å¼ è¾½",
-    "guojia" : "éƒ­å˜‰",
-    "xiahoudun" : "å¤ä¾¯æƒ‡",
-    "simayi" : "å¸é©¬æ‡¿",
-    "xuchu" : "è®¸è¤š",
-    "zhenji" : "ç”„å§¬",
+var table = {
+    // Îº¹úÎä½«
+    "caocao" : "²Ü²Ù",
+    "zhangliao" : "ÕÅÁÉ",
+    "guojia" : "¹ù¼Î",
+    "xiahoudun" : "ÏÄºîª",
+    "simayi" : "Ë¾ÂíÜ²",
+    "xuchu" : "ĞíñÒ",
+    "zhenji" : "Õç¼§",
 
-    //èœ€å›½æ­¦å°†
-    "liubei" : "åˆ˜å¤‡",
-    "guanyu" : "å…³ç¾½",
-    "zhangfei" : "å¼ é£",
-    "zhaoyun" : "èµµäº‘",
-    "machao" : "é©¬è¶…",
-    "zhugeliang" : "è¯¸è‘›äº®",
-    "huangyueying" : "é»„æœˆè‹±",
+    //Êñ¹úÎä½«
+    "liubei" : "Áõ±¸",
+    "guanyu" : "¹ØÓğ",
+    "zhangfei" : "ÕÅ·É",
+    "zhaoyun" : "ÕÔÔÆ",
+    "machao" : "Âí³¬",
+    "zhugeliang" : "Öî¸ğÁÁ",
+    "huangyueying" : "»ÆÔÂÓ¢",
 
-    // å´å›½æ­¦å°†
-    "sunquan" : "å­™æƒ",
-    "zhouyu" : "å‘¨ç‘œ",
-    "lumeng" : "å•è’™",
-    "luxun" : "é™†é€Š",
-    "ganning" : "ç”˜å®",    
-    "huanggai" : "é»„ç›–",
-    "daqiao" : "å¤§ä¹”",
-    "sunshangxiang" : "å­™å°šé¦™",
+    // Îâ¹úÎä½«
+    "sunquan" : "ËïÈ¨",
+    "zhouyu" : "ÖÜè¤",
+    "lumeng" : "ÂÀÃÉ",
+    "luxun" : "Â½Ñ·",
+    "ganning" : "¸ÊÄş",
+    "huanggai" : "»Æ¸Ç",
+    "daqiao" : "´óÇÇ",
+    "sunshangxiang" : "ËïÉĞÏã",
 
-    // ç¾¤é›„
-    "lubu" : "å•å¸ƒ",
-    "huatuo" : "åä½—",
-    "diaochan" : "è²‚è‰",
+    // ÈºĞÛ
+    "lubu" : "ÂÀ²¼",
+    "huatuo" : "»ªÙ¢",
+    "diaochan" : "õõ²õ",
+
+    // ÊÆÁ¦
+    "wei" : "Îº",
+    "shu" : "Êñ",
+    "wu" : "Îâ",
+    "qun" : "Èº",
+
+    // ¼¼ÄÜ
+    "jianxiong" : "¼éĞÛ",
+    "hujia" : "»¤¼İ",
+    "tuxi" : "Í»Ï®",
+    "tiandu" : "Ìì¶Ê",
+    "yiji" : "ÒÅ¼Æ",
+    "ganglie" : "¸ÕÁÒ",
+
+    "rende" : "ÈÊµÂ",
+    "jijiang" : "¼¤½«",
+    "wusheng" : "ÎäÊ¥",
+    "paoxiao" : "ÅØÏø",
+    "longdan" : "Áúµ¨",
+    "tieji" : "ÌúÆï",
+    "mashu" : "ÂíÊõ",
 };
 
 sgs.addTranslationTable(table);
 
-// sgs.alert(sgs.translate("guanyu"));
-// sgs.quit();
+// general's skills
+//var jianxiong = sgs.addSkill("jianxiong");
+//var hujia = sgs.addSkill("hujia");
+
+var caocao = sgs.addGeneral("caocao", "wei");
+//caocao.skills = [ jianxiong, hujia ];
+
+var zhangliao = sgs.addGeneral("zhangliao", "wei");
+var guojia = sgs.addGeneral("guojia", "wei", 3);
+var xiahoudun = sgs.addGeneral("xiahoudun", "wei");
+var simayi = sgs.addGeneral("simayi", "wei", 3);
+var xuchu = sgs.addGeneral("xuchu", "wei");
+var zhenji = sgs.addGeneral("zhenji", "wei", 3, false);
+
+var liubei = sgs.addGeneral("liubei", "shu");
+var guanyu = sgs.addGeneral("guanyu", "shu");
+var zhangfei = sgs.addGeneral("zhangfei", "shu");
+var zhaoyun = sgs.addGeneral("zhaoyun", "shu");
+var machao = sgs.addGeneral("machao", "shu");
+var zhugeliang = sgs.addGeneral("zhugeliang", "shu", 3);
+var huangyueying = sgs.addGeneral("huangyueying", "shu", 3, false);
+
+var sunquan = sgs.addGeneral("sunquan", "wu");
+var zhouyu = sgs.addGeneral("zhouyu", "wu", 3);
+var lumeng = sgs.addGeneral("lumeng", "wu");
+var luxun = sgs.addGeneral("luxun", "wu", 3);
+var huanggai = sgs.addGeneral("hunggai", "wu");
+var ganning = sgs.addGeneral("ganning", "wu");
+var daqiao = sgs.addGeneral("daqiao", "wu", 3, false);
+var sunshangxiang = sgs.addGeneral("sunshangxiang", "wu", 3, false);
 
 

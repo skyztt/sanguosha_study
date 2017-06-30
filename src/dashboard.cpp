@@ -4,6 +4,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsProxyWidget>
 #include <QComboBox>
+#include "card.h"
+#include "carditem.h"
 
 Dashboard::Dashboard()
 	:Pixmap(":/images/dashboard.png"), general(NULL), avatar(NULL), use_skill(false)
@@ -23,7 +25,12 @@ Dashboard::Dashboard()
     connect(sort_type, SIGNAL(currentIndexChanged(int)), this, SLOT(sortCards(int)));
 }
 
-void Dashboard::addCard(Card *card){
+void Dashboard::addCard(Card* card)
+{
+	addCardItem(new CardItem(card));
+}
+
+void Dashboard::addCardItem(CardItem *card){
     card->setParentItem(this);
     card->setParent(this);
     cards << card;
@@ -79,14 +86,22 @@ void Dashboard::adjustCards(){
     }
 }
 
+static bool CompareBySuitNumber(const CardItem *a, const CardItem *b) {
+	return Card::CompareBySuitNumber(a->getCard(), b->getCard());
+}
+
+static bool CompareByType(const CardItem *a, const CardItem *b) {
+	return Card::CompareByType(a->getCard(), b->getCard());
+}
+
 void Dashboard::sortCards(int sort_type){
     if(sort_type == 0)
         return;
 
     if(sort_type == 1)
-        qSort(cards.begin(), cards.end(), Card::CompareBySuitNumber);
+        qSort(cards.begin(), cards.end(), CompareBySuitNumber);
     else
-        qSort(cards.begin(), cards.end(), Card::CompareByType);
+        qSort(cards.begin(), cards.end(), CompareBySuitNumber);
 
     adjustCards();
 }

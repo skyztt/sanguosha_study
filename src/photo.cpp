@@ -5,8 +5,8 @@
 #include <QMimeData>
 #include <QDrag>
 #include <QGraphicsScene>
-#include "card.h"
 #include "QMessageBox"
+#include "carditem.h"
 
 Photo::Photo()
     :Pixmap(":/images/photo-back.png"),
@@ -32,7 +32,7 @@ void Photo::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 void Photo::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
 	QGraphicsObject *obj = static_cast<QGraphicsObject*>(scene()->focusItem());
-	Card *card = qobject_cast<Card*>(obj);
+	CardItem *card = qobject_cast<CardItem*>(obj);
 	if (card && card->isUnderMouse()) {
 		QMessageBox::information(NULL, "", card->objectName());
 	}

@@ -42,7 +42,7 @@ QObject * Engine::addGeneral(const QString &name, const QString &kingdom, int ma
 	return general;
 }
 
-QObject *Engine::addCard(const QString &card_class, const QString &suit_str, int number) {
+QObject *Engine::addCard(const QString &name, const QString &suit_str, const QScriptValue& number_value) {
 	Card::Suit suit;
 	if (suit_str == "spade")
 		suit = Card::Spade;
@@ -55,13 +55,47 @@ QObject *Engine::addCard(const QString &card_class, const QString &suit_str, int
 	else
 		suit = Card::NoSuit;
 
-	Card *card = new Card(card_class, suit, number);
-	return card;
+	int number = 0;
+	if (number_value.isString()) {
+		QString number_str = number_value.toString();
+		if (number_str == "A")
+			number = 1;
+		else if (number_str == "J")
+			number = 11;
+		else if (number_str == "Q")
+			number = 12;
+		else if (number_str == "K")
+			number = 13;
+	}
+	else if (number_value.isNumber()) {
+		number = number_value.toNumber();
+	}
+
+	CardClass *card_class = getCardClass(name);
+	if (card_class) {
+		int id = cards.length();
+		Card *card = new Card(card_class, suit, number, id);
+		cards << card;
+		return card;
+	}
+	else
+		return NULL;
 }
 
-Q_INVOKABLE QObject * Engine::addCardClass(const QString &class_name)
+Q_INVOKABLE QObject * Engine::addCardClass(const QString &class_name, const QString &type_str)
 {
-	CardClass *card_class = new CardClass(class_name, card_classes);
+	int id = card_classes->children().count();
+	CardClass::Type type;
+	if (type_str == "basic")
+		type = CardClass::Basic;
+	else if (type_str == "equip")
+		type = CardClass::Equip;
+	else if (type_str == "trick")
+		type = CardClass::Trick;
+	else
+		type = CardClass::UserDefined;
+
+	CardClass *card_class = new CardClass(class_name, type, id, card_classes);
 	return card_class;
 }
 
@@ -110,6 +144,10 @@ General * Engine::getGeneral(const QString &name)
 	return generals->findChild<General*>(name);
 }
 
+CardClass *Engine::getCardClass(const QString &name) {
+	return card_classes->findChild<CardClass*>(name);
+}
+
 void Engine::alert(const QString &message) {
 	QMessageBox::information(NULL, tr("Script alert"), message);
 }
@@ -118,4 +156,11 @@ void Engine::quit(const QString &reason) {
 	if (!reason.isEmpty())
 		QMessageBox::warning(NULL, tr("Script quit"), reason);
 	exit(0);
+}
+
+Card *Engine::getCard(int index) {
+	if (index < 0 || index >= cards.length())
+		return NULL;
+	else
+		return cards[index];
 }

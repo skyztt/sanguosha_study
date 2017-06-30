@@ -4,6 +4,8 @@
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
 #include <QGraphicsSceneMouseEvent>
+#include "carditem.h"
+#include "engine.h"
 
 RoomScene::RoomScene()
 {
@@ -39,52 +41,40 @@ RoomScene::RoomScene()
 	photos[4]->loadAvatar("generals/small/guojia.png");
 	photos[5]->loadAvatar("generals/small/zhugeliang.png");
 	photos[6]->loadAvatar("generals/small/zhouyu.png");
+  
+	dashboard = new Dashboard;
+	dashboard->setGeneral(new General("xiahoudun", "wei", 4, true));
 
-    {
-		dashboard = new Dashboard;
-		dashboard->setGeneral(new General("xiahoudun", "wei", 4, true));
+	for (i = 0; i < 5; i++) {
+		Card *card = Sanguosha->getCard(i);
+		if (card)
+			dashboard->addCard(card);
+	}
 
-		addItem(dashboard);
+	addItem(dashboard);
 
-		avatar = dashboard->getAvatar();
+	avatar = dashboard->getAvatar();
 
-        QPointF start_pos(Config.Rect.topLeft());
-        QPointF end_pos(Config.Rect.x(), Config.Rect.bottom() - dashboard->boundingRect().height());
-        int duration = 1500;
+	QPointF start_pos(Config.Rect.topLeft());
+	QPointF end_pos(Config.Rect.x(), Config.Rect.bottom() - dashboard->boundingRect().height());
+	int duration = 1500;
 
-        QPropertyAnimation *translation = new QPropertyAnimation(dashboard, "pos");
-        translation->setStartValue(start_pos);
-        translation->setEndValue(end_pos);
-        translation->setEasingCurve(QEasingCurve::OutBounce);
-        translation->setDuration(duration);
+	QPropertyAnimation *translation = new QPropertyAnimation(dashboard, "pos");
+	translation->setStartValue(start_pos);
+	translation->setEndValue(end_pos);
+	translation->setEasingCurve(QEasingCurve::OutBounce);
+	translation->setDuration(duration);
 
-        QPropertyAnimation *enlarge = new QPropertyAnimation(dashboard, "scale");
-        enlarge->setStartValue(0.2);
-        enlarge->setEndValue(1.0);
-        enlarge->setEasingCurve(QEasingCurve::OutBounce);
-        enlarge->setDuration(duration);
+	QPropertyAnimation *enlarge = new QPropertyAnimation(dashboard, "scale");
+	enlarge->setStartValue(0.2);
+	enlarge->setEndValue(1.0);
+	enlarge->setEasingCurve(QEasingCurve::OutBounce);
+	enlarge->setDuration(duration);
 
-        group->addAnimation(translation);
-        group->addAnimation(enlarge);
-    }
+	group->addAnimation(translation);
+	group->addAnimation(enlarge);
 
-    group->start(QAbstractAnimation::DeleteWhenStopped);
-
-	Card *card1 = new Card("savage_assault", Card::Spade, 1);
-	Card *card2 = new Card("slash", Card::Club, 7);
-	Card *card3 = new Card("jink", Card::Heart, 2);
-	Card *card4 = new Card("peach", Card::Diamond, 10);
-	Card *card5 = new Card("archery_attack", Card::Heart, 11);
-	Card *card6 = new Card("crossbow", Card::Club, 12);
-
-	dashboard->addCard(card1);
-	dashboard->addCard(card2);
-	dashboard->addCard(card3);
-	dashboard->addCard(card4);
-	dashboard->addCard(card5);
-	dashboard->addCard(card6);
-
-	card4->setEnabled(false);
+    group->start(QAbstractAnimation::DeleteWhenStopped);		
 }
 
 void RoomScene::updatePhotos()
@@ -116,7 +106,7 @@ void RoomScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 	QGraphicsScene::mouseMoveEvent(event);
 
 	QGraphicsObject *obj = static_cast<QGraphicsObject*>(focusItem());
-	Card *card = qobject_cast<Card*>(obj);
+	CardItem *card = qobject_cast<CardItem*>(obj);
 	if (!card || !card->isUnderMouse())
 		return;
 

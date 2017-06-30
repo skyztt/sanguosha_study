@@ -141,8 +141,11 @@ void MainWindow::on_actionStart_Server_triggered()
 
 void MainWindow::startConnection()
 {
+	startGame();
+#if 0
 	Client *client = new Client(this);
 
 	connect(client, SIGNAL(errorMessage(QString)), SLOT(connectionError(QString)));
 	connect(client, SIGNAL(connected()), SLOT(startGame()));
+#endif
 }

@@ -31,7 +31,7 @@ void Settings::init(){
         SmallFont.setFamily(font_family);
     }
 
-    BigFont.setPixelSize(64);
+    BigFont.setPixelSize(56);
     SmallFont.setPixelSize(32);
 	
     UserName = value("UserName", getenv("USERNAME")).toString();

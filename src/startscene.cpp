@@ -6,6 +6,7 @@
 #include "QParallelAnimationGroup"
 #include <QTextEdit> 
 #include "server.h"
+#include "QPropertyAnimation"
 
 StartScene::StartScene(){
     setBackgroundBrush(Config.BackgroundBrush);

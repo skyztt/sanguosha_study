@@ -2,10 +2,12 @@
 #define DASHBOARD_H
 
 #include "pixmap.h"
-#include "card.h"
 #include "general.h"
 
 #include <QPushButton>
+
+class CardItem;
+class Card;
 
 class Dashboard : public Pixmap
 {
@@ -13,7 +15,8 @@ class Dashboard : public Pixmap
 
 public:
     Dashboard();
-    void addCard(Card *card);
+	void addCard(Card* card);
+    void addCardItem(CardItem *card);
 	void setGeneral(General *general);
 	Pixmap *getAvatar();
 
@@ -21,7 +24,7 @@ protected:
 	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 private:
-    QList<Card*> cards;
+    QList<CardItem*> cards;
     General *general = nullptr;
     QPixmap magatamas[5];
 	Pixmap *avatar = nullptr;
