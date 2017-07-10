@@ -21,6 +21,7 @@ public:
 
     QString UserName; 
 	QString HostAddress;
+	QString userGeneral;
 	ushort Port;
 
     bool FitInView;	

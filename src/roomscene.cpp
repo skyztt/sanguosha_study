@@ -13,68 +13,25 @@ RoomScene::RoomScene()
     skill_label = addSimpleText(Config.UserName, Config.BigFont);
     skill_label->setPos(-400, -100);
 
-    QParallelAnimationGroup *group = new QParallelAnimationGroup(this);
-
-    int i;
-    for(i=0;i<7;i++){
-        Photo *photo = new Photo;
-        photos << photo;
-
-        addItem(photo);
-
-        qreal x = i * photo->boundingRect().width() + Config.Rect.x();
-        qreal y =  Config.Rect.y() + 10;
-        int duration = 1500.0 * qrand()/ RAND_MAX;
-
-        QPropertyAnimation *translation = new QPropertyAnimation(photo, "pos");
-        translation->setEndValue(QPointF(x,y));
-        translation->setEasingCurve(QEasingCurve::OutBounce);
-        translation->setDuration(duration);
-
-        group->addAnimation(translation);
+	QStringList generalList{"caocao", "liubei", "sunquan", "simayi", "guojia", "zhugeliang", "zhouyu"};
+    for(QString general : generalList){
+		addGeneral(general);
     }
-
-	photos[0]->loadAvatar("generals/small/caocao.png");
-	photos[1]->loadAvatar("generals/small/liubei.png");
-	photos[2]->loadAvatar("generals/small/sunquan.png");
-	photos[3]->loadAvatar("generals/small/simayi.png");
-	photos[4]->loadAvatar("generals/small/guojia.png");
-	photos[5]->loadAvatar("generals/small/zhugeliang.png");
-	photos[6]->loadAvatar("generals/small/zhouyu.png");
   
 	dashboard = new Dashboard;
-	dashboard->setGeneral(new General("xiahoudun", "wei", 4, true));
+	dashboard->setGeneral(Engine::getInstance()->getGeneral(Config.userGeneral));
 
-	for (i = 0; i < 5; i++) {
-		Card *card = Sanguosha->getCard(i);
+	for (int i = 0; i < 5; i++) {
+		Card *card = Engine::getInstance()->getCard(qrand() % 108);
 		if (card)
 			dashboard->addCard(card);
 	}
 
 	addItem(dashboard);
 
-	avatar = dashboard->getAvatar();
+	avatar = dashboard->getAvatar();	
 
-	QPointF start_pos(Config.Rect.topLeft());
-	QPointF end_pos(Config.Rect.x(), Config.Rect.bottom() - dashboard->boundingRect().height());
-	int duration = 1500;
-
-	QPropertyAnimation *translation = new QPropertyAnimation(dashboard, "pos");
-	translation->setStartValue(start_pos);
-	translation->setEndValue(end_pos);
-	translation->setEasingCurve(QEasingCurve::OutBounce);
-	translation->setDuration(duration);
-
-	QPropertyAnimation *enlarge = new QPropertyAnimation(dashboard, "scale");
-	enlarge->setStartValue(0.2);
-	enlarge->setEndValue(1.0);
-	enlarge->setEasingCurve(QEasingCurve::OutBounce);
-	enlarge->setDuration(duration);
-
-	group->addAnimation(translation);
-	group->addAnimation(enlarge);
-
-    group->start(QAbstractAnimation::DeleteWhenStopped);		
+	enterAnimation();
 }
 
 void RoomScene::updatePhotos()
@@ -139,5 +96,58 @@ void RoomScene::showBust(const QString &name)
 	appear->start();
 
 	connect(appear, SIGNAL(finished()), bust, SIGNAL(visibleChanged()));
+}
+
+void RoomScene::enterAnimation()
+{
+	QParallelAnimationGroup *group = new QParallelAnimationGroup(this);
+
+	qreal photoWidth;
+	if (!_generals.isEmpty()) {
+		photoWidth = _generals.front()->boundingRect().width();
+
+		qreal x = Config.Rect.x();
+		qreal y = Config.Rect.y() + 10;		
+		for (auto generalPhoto : _generals) {
+			int duration = 1500.0 * qrand() / RAND_MAX;
+			QPropertyAnimation *translation = new QPropertyAnimation(generalPhoto.data(), "pos");
+			translation->setEndValue(QPointF(x, y));
+			translation->setEasingCurve(QEasingCurve::OutBounce);
+			translation->setDuration(duration);
+
+			group->addAnimation(translation);
+			x += photoWidth;
+		}
+	}
+		
+	QPointF start_pos(Config.Rect.topLeft());
+	QPointF end_pos(Config.Rect.x(), Config.Rect.bottom() - dashboard->boundingRect().height());
+	int duration = 1500;
+
+	QPropertyAnimation *translation = new QPropertyAnimation(dashboard, "pos");
+	translation->setStartValue(start_pos);
+	translation->setEndValue(end_pos);
+	translation->setEasingCurve(QEasingCurve::OutBounce);
+	translation->setDuration(duration);
+
+	QPropertyAnimation *enlarge = new QPropertyAnimation(dashboard, "scale");
+	enlarge->setStartValue(0.2);
+	enlarge->setEndValue(1.0);
+	enlarge->setEasingCurve(QEasingCurve::OutBounce);
+	enlarge->setDuration(duration);
+
+	group->addAnimation(translation);
+	group->addAnimation(enlarge);
+
+	group->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+void RoomScene::addGeneral(const QString& name)
+{
+	General *general = Engine::getInstance()->getGeneral(name);
+	QSharedPointer<Photo> photo(new Photo);
+	_generals << photo;
+	photo->loadAvatar("generals/small/" + general->objectName() + ".png");
+	addItem(photo.data());
 }
 

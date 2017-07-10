@@ -20,6 +20,7 @@ Settings::Settings(const QString &organization, const QString &application) :
 
 Settings::~Settings()
 {
+	setValue("userGeneral", userGeneral);
 }
 
 void Settings::init(){
@@ -37,6 +38,8 @@ void Settings::init(){
     UserName = value("UserName", getenv("USERNAME")).toString();
 	HostAddress = value("HostAddress", "127.0.0.1").toString();
 	Port = value("Port", 9527u).toUInt();
+
+	userGeneral = value("userGeneral", "guojia").toString();
 
     FitInView = value("FitInView", false).toBool();
 	UseOpenGL = value("UseOpenGL", false).toBool();

@@ -9,8 +9,7 @@
 #include "QString"
 #include "card.h"
 #include "cardclass.h"
-
-Engine *Sanguosha = nullptr;
+#include "QDir"
 
 Engine::Engine(QObject *parent) :
     QScriptEngine(parent)
@@ -37,23 +36,36 @@ Engine::Engine(QObject *parent) :
 
 QObject * Engine::addGeneral(const QString &name, const QString &kingdom, int max_hp, bool male)
 {
-	General *general = new General(name, kingdom, max_hp, male);
+	QString realName = name;
+	bool isLeader = false;
+	if (realName.endsWith("!")) {
+		isLeader = true;
+		realName.remove(name.size() - 1, 1);
+	}
+	General *general = new General(realName, kingdom, max_hp, male, pixmap_dir);	
+	general->setIsLeader(isLeader);
 	general->setParent(generals);
 	return general;
 }
 
-QObject *Engine::addCard(const QString &name, const QString &suit_str, const QScriptValue& number_value) {
-	Card::Suit suit;
-	if (suit_str == "spade")
-		suit = Card::Spade;
-	else if (suit_str == "club")
-		suit = Card::Club;
-	else if (suit_str == "heart")
-		suit = Card::Heart;
-	else if (suit_str == "diamond")
-		suit = Card::Diamond;
-	else
-		suit = Card::NoSuit;
+QObject *Engine::addCard(const QString &name, const QScriptValue &suit_val, const QScriptValue& number_value) {
+	Card::Suit suit = Card::NoSuit;
+	if (suit_val.isString()) {
+		QString suit_str = suit_val.toString();
+		if (suit_str == "spade")
+			suit = Card::Spade;
+		else if (suit_str == "club")
+			suit = Card::Club;
+		else if (suit_str == "heart")
+			suit = Card::Heart;
+		else if (suit_str == "diamond")
+			suit = Card::Diamond;
+		else
+			suit = Card::NoSuit;
+	}
+	else if (suit_val.isNumber()) {
+		suit = Card::Suit(suit_val.toInt32());
+	}	
 
 	int number = 0;
 	if (number_value.isString()) {
@@ -144,6 +156,11 @@ General * Engine::getGeneral(const QString &name)
 	return generals->findChild<General*>(name);
 }
 
+QList<General *> Engine::getAllGenerals()
+{
+	return generals->findChildren<General*>();
+}
+
 CardClass *Engine::getCardClass(const QString &name) {
 	return card_classes->findChild<CardClass*>(name);
 }
@@ -163,4 +180,20 @@ Card *Engine::getCard(int index) {
 		return NULL;
 	else
 		return cards[index];
+}
+
+Engine * Engine::getInstance()
+{
+	static Engine* engine = new Engine;
+	return engine;
+}
+
+void Engine::setPixmapDir(const QString &pixmap_dir) {
+	QDir dir(pixmap_dir);
+	if (dir.exists())
+		this->pixmap_dir = pixmap_dir;
+}
+
+QString Engine::getPixmapDir() const {
+	return this->pixmap_dir;
 }

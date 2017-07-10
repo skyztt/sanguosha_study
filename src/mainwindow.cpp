@@ -45,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connection_dialog = new ConnectionDialog(this);
 	connect(ui->actionStart_Game, SIGNAL(triggered()), connection_dialog, SLOT(show()));
 	connect(connection_dialog, SIGNAL(accepted()), this, SLOT(startConnection()));
+	connect(ui->actionAbout_Qt, &QAction::triggered, qApp, &QApplication::aboutQt);
 
     qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
     
@@ -64,8 +65,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 //    if(Config.TitleMusic)
 //        Config.TitleMusic->play();
-
-	Sanguosha = new Engine(this);
 
     restoreFromConfig();
 }

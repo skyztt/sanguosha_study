@@ -7,6 +7,8 @@ namespace Ui {
     class ConnectionDialog;
 }
 
+class QListWidgetItem;
+
 class ConnectionDialog : public QDialog {
     Q_OBJECT
 public:
@@ -14,6 +16,7 @@ public:
     ~ConnectionDialog();
 public slots:
 	void on_connectButton_clicked();
+	void chooseUserGeneral(QListWidgetItem *item);
 
 private:
     Ui::ConnectionDialog *ui;
