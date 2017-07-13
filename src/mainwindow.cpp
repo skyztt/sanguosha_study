@@ -16,6 +16,7 @@
 #include "connectiondialog.h"
 #include "QTcpSocket"
 #include "client.h"
+#include "QTextEdit"
 
 class FitView : public QGraphicsView
 {
@@ -43,7 +44,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     Config.init();
 	connection_dialog = new ConnectionDialog(this);
-	connect(ui->actionStart_Game, SIGNAL(triggered()), connection_dialog, SLOT(show()));
+	//connect(ui->actionStart_Game, SIGNAL(triggered()), connection_dialog, SLOT(show()));
+	connect(ui->actionStart_Game, SIGNAL(triggered()), connection_dialog, SLOT(on_connectButton_clicked()));
+	
 	connect(connection_dialog, SIGNAL(accepted()), this, SLOT(startConnection()));
 	connect(ui->actionAbout_Qt, &QAction::triggered, qApp, &QApplication::aboutQt);
 
@@ -123,28 +126,37 @@ void MainWindow::connectionError(const QString &error_msg)
 
 void MainWindow::on_actionStart_Server_triggered()
 {
-	Server *server = new Server(this);	
-	if (!server->start()) {
-		QMessageBox::warning(this, "Warning", tr("Can not start server!"));
-		return;
-	}
+	if (!server_) {
+		server_ = new Server(this);
+
+		if (!log4Server_) {
+			log4Server_ = new QTextEdit;
+			log4Server_->setReadOnly(true);
+			connect(server_, &Server::server_message, log4Server_, &QTextEdit::append);
+		}		
+
+		if (!server_->start()) {
+			QMessageBox::warning(this, "Warning", tr("Can not start server!"));
+			return;
+		}
+	}	
 
 	ui->actionStart_Game->setEnabled(false);
-	ui->actionStart_Server->setEnabled(false);
-
+	ui->actionStart_Server->setEnabled(false);	
+	log4Server_->show();
+	
+#if 0
 	StartScene *start_scene = qobject_cast<StartScene *>(scene);
 	if (start_scene) {
 		start_scene->switchToServer(server);
 	}
+#endif
 }
 
 void MainWindow::startConnection()
 {
-	startGame();
-#if 0
 	Client *client = new Client(this);
 
 	connect(client, SIGNAL(errorMessage(QString)), SLOT(connectionError(QString)));
 	connect(client, SIGNAL(connected()), SLOT(startGame()));
-#endif
 }

@@ -12,6 +12,8 @@ namespace Ui {
 class QScriptValue;
 class Engine;
 class ConnectionDialog;
+class Server;
+class QTextEdit;
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -29,6 +31,8 @@ private:
     void restoreFromConfig();
 
 	ConnectionDialog *connection_dialog = nullptr;
+	Server *server_ = nullptr;
+	QTextEdit *log4Server_ = nullptr;
 
 private slots:
     void gotoScene(QGraphicsScene *scene);
