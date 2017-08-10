@@ -2,30 +2,35 @@
 #define PLAYER_H
 
 #include <QObject>
-#include <QUuid>
+#include "QUuid"
 
-class QTcpSocket;
 class Player : public QObject
 {
 	Q_OBJECT
-
 public:
-	Player(QTcpSocket *socket ,QObject *parent = nullptr);
-
-	void sendMessageToPlayer(const QString& msg);
+	Player(QObject *parent = nullptr);
+	Player(const QString& jsonVal, QObject *parent = nullptr);
 	~Player();
-
-	QTcpSocket *getInnerSocket() {
-		Q_ASSERT(socket_);
-		return socket_;
-	}
 	QString getUuidString();
-signals:
-	void disconnected();
-	void getMessageFromPlayer(const QString& msg, const QString& strUUid);
+	QString name() {
+		return name_;
+	}
+	QString avatar() {
+		return avatar_;
+	}
+
+	void setName(const QString& name) {
+		name_ = name;
+	}
+	void setAvatar(const QString& avatar) {
+		avatar_ = avatar;
+	}
+
+	QString toJson();
 private:
-	QTcpSocket *socket_ = nullptr;
 	QUuid id_;
+	QString name_;
+	QString avatar_;
 };
 
 #endif // PLAYER_H

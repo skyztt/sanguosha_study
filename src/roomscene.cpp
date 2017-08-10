@@ -21,11 +21,13 @@ RoomScene::RoomScene()
 	dashboard = new Dashboard;
 	dashboard->setGeneral(Engine::getInstance()->getGeneral(Config.userGeneral));
 
+#if 0
 	for (int i = 0; i < 5; i++) {
 		Card *card = Engine::getInstance()->getCard(qrand() % 108);
 		if (card)
 			dashboard->addCard(card);
 	}
+#endif
 
 	addItem(dashboard);
 

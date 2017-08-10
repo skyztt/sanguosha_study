@@ -2,7 +2,7 @@
 #define ROOM_H
 
 #include <QObject>
-#include "player.h"
+#include "playerconnection.h"
 #include <QSharedPointer>
 
 class QTcpSocket;
@@ -19,7 +19,9 @@ public:
 signals :
 	void log(const QString& msg);
 private:
-	QList<QSharedPointer<Player>> pList_;	
+	void unicast(const QString& msg, QSharedPointer<PlayerConnection> player);
+	void broadcast(const QString& msg, QSet<QSharedPointer<PlayerConnection>> exceptPlayers);
+	QList<QSharedPointer<PlayerConnection>> pList_;	
 };
 
 #endif // ROOM_H

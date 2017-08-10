@@ -1,28 +1,22 @@
 #include "player.h"
-#include "QTcpSocket"
+#include <QJsonObject> 
+#include <QJsonDocument> 
 
-Player::Player(QTcpSocket *socket, QObject *parent)
+Player::Player(QObject *parent)
 	: QObject(parent),
-	socket_(socket),
 	id_(QUuid::createUuid())
 {
-	connect(socket_, SIGNAL(disconnected()), this, SIGNAL(disconnected()));
-	connect(socket_, &QTcpSocket::readyRead, this, [this]() {
-		while (socket_->canReadLine()) {
-			QString request = socket_->readLine(1024);
-			request.chop(1);
-			emit getMessageFromPlayer(request, getUuidString());
-		}
-	});
+
 }
 
-void Player::sendMessageToPlayer(const QString& msg)
+Player::Player(const QString& jsonVal, QObject *parent /*= nullptr*/)
+	: QObject(parent)
 {
-	Q_ASSERT(socket_);
-	if (socket_) {
-		socket_->write(msg.toUtf8());
-		socket_->write("\n");
-	}
+	QJsonDocument loadDoc(QJsonDocument::fromJson(jsonVal.toUtf8()));
+	QJsonObject jo = loadDoc.object();
+	id_ = QUuid(jo["uuid"].toString());
+	name_ = jo["name"].toString();
+	avatar_ = jo["avatar"].toString();
 }
 
 Player::~Player()
@@ -33,4 +27,15 @@ Player::~Player()
 QString Player::getUuidString()
 {
 	return id_.toString();
+}
+
+QString Player::toJson()
+{
+	QJsonObject outObj;
+	outObj["uuid"] = getUuidString();
+	outObj["name"] = name_;
+	outObj["avatar"] = avatar_;
+
+	QJsonDocument saveDoc(outObj);
+	return saveDoc.toJson();
 }
